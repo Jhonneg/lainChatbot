@@ -27,11 +27,14 @@
 </template>
 
 <script setup lang="ts">
+import { marked } from "marked";
+import DOMPurify from "dompurify";
+
 const newMessage = ref("");
 const messages = useMessages();
 const { customerInitials } = useCostumer();
 
-function handleSubmit() {
+async function handleSubmit() {
   messages.value.push({
     name: customerInitials.value,
     message: newMessage.value,
@@ -42,9 +45,13 @@ function handleSubmit() {
   });
   newMessage.value = "";
 
+  const parsedMessage = await marked.parse(
+    DOMPurify.sanitize("Hello **world**!")
+  );
+
   messages.value.push({
     name: "Lain",
-    message: newMessage.value,
+    message: parsedMessage,
     isLain: true,
     timestamp: new Date().toLocaleString([], {
       timeStyle: "short",

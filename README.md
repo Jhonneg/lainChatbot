@@ -1,0 +1,1 @@
+[![Current tech stack](https://skillicons.dev/icons?i=nuxt,ts)](https://skillicons.dev)

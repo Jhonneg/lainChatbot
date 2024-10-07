@@ -1,7 +1,7 @@
 <template>
   <div
-    class="bg-repeat bg-cover w-full h-full font-sans"
-    style="background-color: black"
+    class="bg-no-repeat bg-right-bottom bg-black w-full h-full font-sans"
+    style="background-image: url(/laind.gif)"
   >
     <div class="flex items-center justify-center h-full">
       <div

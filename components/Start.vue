@@ -32,7 +32,20 @@
 <script setup lang="ts">
 const isChatting = useIsChatting();
 const { customerName, hasNameError } = useCostumer();
-function handleSubmit() {
+
+const thread = useCookie("thread-id");
+const run = useCookie("run-id");
+
+async function handleSubmit() {
+  const response = await $fetch("/api/thread", {
+    query: {
+      customer: customerName.value,
+    },
+  });
+
+  thread.value = response.thread;
+  run.value = response.run;
+
   isChatting.value = true;
 }
 </script>

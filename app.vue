@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="bg-no-repeat bg-right-bottom bg-black w-full h-full font-sans"
-    style="background-image: url(/laind.gif)"
-  >
+  <div class="bg-no-repeat bg-right-bottom bg-black w-full h-full font-sans">
     <div class="flex items-center justify-center h-full">
       <div
         class="max-w-[800px] relative z-20 shadow-lg after:content-[' '] after:z-[-1] after:h-full after:bg-slate-900 after:border after:border-slate-900 after:absolute after:left-2.5 after:right-2.5 after:top-0 after:mt-2 after:rounded"

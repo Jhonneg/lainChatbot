@@ -39,6 +39,7 @@
       </svg>
     </div>
     <div
+      ref="container"
       v-else
       class="flex flex-col gap-3.5 py-5 px-3 overflow-y-scroll max-h-[400px]"
     >
@@ -80,24 +81,32 @@
 </template>
 
 <script setup lang="ts">
+// import { ThreadMessage } from "openai/resources/beta/threads/messages"
 const messages = useMessages();
 const { customerInitials } = useCostumer();
+const container = ref();
+
+onUpdated(() => {
+  container.value.scrollTop = container.value.scrollHeight;
+});
 
 const { pending } = await useFetch("/api/message", {
   lazy: true,
   onResponse({ response }) {
-    const content = response._data.data[0].content[0];
+    response._data.data.reverse().forEach((element: any) => {
+      const content = element.content[0];
 
-    if (content?.type == "text") {
-      messages.value.push({
-        name: "Lain",
-        isLain: true,
-        message: content.text.value,
-        timestamp: new Date().toLocaleString([], {
-          timeStyle: "short",
-        }),
-      });
-    }
+      if (content?.type == "text") {
+        messages.value.push({
+          name: element.role == "assistant" ? "Lain" : customerInitials.value,
+          isLain: element.role == "assistant" ? true : false,
+          message: content.text.value,
+          timestamp: new Date().toLocaleString([], {
+            timeStyle: "short",
+          }),
+        });
+      }
+    });
   },
 });
 </script>

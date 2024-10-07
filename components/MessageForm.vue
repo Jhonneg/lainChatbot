@@ -43,19 +43,31 @@ async function handleSubmit() {
       timeStyle: "short",
     }),
   });
+  const userMessage = newMessage.value;
+
   newMessage.value = "";
 
-  const parsedMessage = await marked.parse(
-    DOMPurify.sanitize("Hello **world**!")
-  );
+  await $fetch("/api/message", {
+    method: "POST",
+    query: { message: userMessage },
+    async onResponse({ response }) {
+      const content = response._data.data[0].content[0];
 
-  messages.value.push({
-    name: "Lain",
-    message: parsedMessage,
-    isLain: true,
-    timestamp: new Date().toLocaleString([], {
-      timeStyle: "short",
-    }),
+      if (content.type != "text") return;
+
+      const parsedMessage = await marked.parse(
+        DOMPurify.sanitize(content.text.value)
+      );
+
+      messages.value.push({
+        name: "Lain",
+        message: parsedMessage,
+        isLain: true,
+        timestamp: new Date().toLocaleString([], {
+          timeStyle: "short",
+        }),
+      });
+    },
   });
 }
 </script>
